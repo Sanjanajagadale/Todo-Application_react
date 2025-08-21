@@ -1,39 +1,65 @@
-import React, { useState } from 'react'
-
+import React, {useContext,useReducer, useState } from 'react'
+import { ToDoContext } from '../context/ToDoContext'
+import { useNavigate } from 'react-router-dom'
 
 const ToDoForm = () => {
-    const [name ,setName]= useState()
-    const[Description, setDescription]=useState()
-    const[state,dispatch]=useReducer(reducer,initialState)
+    const [name ,setName]= useState("")
+    const[description, setDescription]=useState("")
+    
+    const { state, dispatch } = useContext(ToDoContext)
 
-
+const navigate = useNavigate()
 
     function handleSubmit(event){
-        event.preventdefault
+        event.preventDefault()
+        try{
+          const payload ={name,description}
+          dispatch({type:'ADD_TODO',payload})
+          console.log(payload)
+          navigate('/')
+        }catch(error){
+          console.log(error)
+
+        }
 
     }
   return (
     <>
-    <div>
-        <h1 clasName="text-center text-success">
-            <b>To Do Application</b>
-        </h1>
-        <form>
-  <div class="mb-3">
-    <label htmlFor="exampleInputEmail1" className="form-label">task</label>
-    <input type="text" class="form-control" id="exampleInputEmail1" />
-    <div id="task" class="form-text"></div>
-  </div>
-  <div class="mb-3">
-    <label htmlFor="exampleInputPassword1" classNameclass="form-label">Password</label>
-    <input type="description" class="form-control" id="description"/>
-  </div>
-  <div class="mb-3 form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1"/>
-    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+    <div className='container my-4'>
+      <h1 className="text-center text-success ">
+        <b>To Do Application</b>
+      </h1>
+
+      <h3>Create New ToDO</h3>
+      <form onSubmit={handleSubmit} className="card shadow-sm mb-4">
+        <div className="card-body">
+          <h5 className="card-title mb-3">Add a Task</h5>
+          <div className="mb-3">
+            <label className="form-label">Task Name</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="e.g., Learn React"
+           
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Description</label>
+            <textarea
+              className="form-control"
+              placeholder="Details about the task"
+              rows={3}
+           
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </div>
+          <button type="submit" className="btn btn-primary">
+            Add Task
+          </button>
+        </div>
+      </form>
     </div>
     </>
   )

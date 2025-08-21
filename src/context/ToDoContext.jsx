@@ -1,25 +1,23 @@
 import React, { createContext,useEffect,useReducer } from 'react'
-import{initialState,reducer,} from './reducer'
-import ToDoForm from '../component/ToDoForm'
+import { initialState,reducer } from '../reducer/todoReducer';
+
 const ToDoContext =createContext()
 
 const ToDoProvider = ({children}) => {
     const [state,dispatch]=useReducer(reducer,initialState,(init)=>{
         try{
-
-        
-ToDoFormLoacl=JSON.parse(  localStorage.setItem('todoBatch1'))
-return ToDoFormLoacl?.todos
-        }catch{
+const raw = localStorage.getItem("todosBatch51");
+        const parsed = raw ? JSON.parse(raw) : null;
+        return Array.isArray(parsed?.todos) ? parsed : init;
+      }catch{
 return init
         }
 })
-
-
-useEffect(()=>{
-    localStorage.setItem("todoBatch1",JSON.stringify(state))
-})
-
+        
+ useEffect(() => {
+    localStorage.setItem("todosBatch51", JSON.stringify(state.todos));
+  }, [state])
+console.log(state)
 
   return (
    <ToDoContext.Provider value={{state,dispatch}}>

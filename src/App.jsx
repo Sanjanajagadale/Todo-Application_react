@@ -1,16 +1,17 @@
-import { useState ,ro} from 'react'
+import { useState ,} from 'react'
 import './App.css'
 import { BrowserRouter,Routes,Route } from 'react-router-dom'
 import Navbar from './component/Navbar'
+import Home from './pages/Home'
+import About from './pages/About'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 import ToDoForm from './component/ToDoForm'
-
-
-import { ToDoProvider } from './contex/ToDoContext'
+import { ToDoProvider } from './context/ToDoContext'
 
 
 function App() {
-  const [count, setCount] = useState(0)
+  
 
   return (
     <>
@@ -19,8 +20,8 @@ function App() {
       <Navbar/>
       <Routes>
         <Route path="/" element={<Home/>}></Route>
-        <Route path="ToDoForm" >{<ToDoForm/>}</Route>
-        <Route path="/About" element={<About/>}></Route>
+        <Route path="/createTask" element={<ToDoForm/>}></Route>
+        <Route path="/about" element={<About/>}></Route>
       </Routes>
       </ToDoProvider>
       </BrowserRouter>
